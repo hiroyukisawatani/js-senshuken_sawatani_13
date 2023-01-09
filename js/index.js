@@ -7,7 +7,7 @@ class Index {
       [注意]ここの値は、FireBaseのプロジェクトサイトを参照する。
       */
       var config = {
-        apiKey: ,
+        apiKey: 　,
         authDomain: "hiro-project1.firebaseapp.com",
         projectId: "hiro-project1",
         storageBucket: "hiro-project1.appspot.com",
