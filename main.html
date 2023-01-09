@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/main.css">
+
+<!-- JQuery -->
+<script src="js/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.20/build/jquery.datetimepicker.full.min.js">
+
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.20/jquery.datetimepicker.css">
+<!-- JQuery -->
+
+
+<title>Home</title>
+</head>
+
+<body>
+  <header>
+    <h1>翻訳お手伝いコミュニティ
+    </h1>
+
+  </header>
+<main>
+ <!-- コンテンツ表示画面 -->
+ <button id="new-job"><i class="fas fa-plus"></i> 依頼を追加</button>
+ <button onclick="location.href='./calender.html'">マイページ</button>
+ <main>
+  
+  <div id="jobOffer" style="display: none;">
+    <p>依頼主</p>
+    <input type="text" id="client">
+    <p>依頼内容</p>
+    <select id="type">
+    <option>英語→日本語</option>
+    <option>日本語→英語</option>
+
+    </select>
+    <select id="type2"> 
+    <option>ビジネス文章（メール）</option>
+    <option>ビジネス文章（契約書）</option>
+    <option>ビジネス文章（その他）</option>
+    <option>SNS／YouTube動画テロップ</option>
+    <option>その他</option>
+    </select>
+
+    <input type="text" id="datetimepicker">
+
+    <textarea id="job">
+    </textarea>
+    <button id="save">登録</button>
+  </div>
+  <div id="jobList">
+  <p>依頼一覧</p>
+  <ul id="list">
+  <!-- ここに追加データが挿入される -->
+  </ul>
+  </div>
+</main>
+
+<!--/ コンテンツ表示画面 -->
+
+<!--** 以下Firebase **-->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved  } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: ,
+      authDomain: "hiro-project1.firebaseapp.com",
+      projectId: "hiro-project1",
+      storageBucket: "hiro-project1.appspot.com",
+      messagingSenderId: "1070070675953",
+      appId: "1:1070070675953:web:dd971503d7454d23792c50",
+      measurementId: "G-CPDEY181DT"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // realtimedatabase に接続
+    const db = getDatabase(app); 
+    // realtimedatabase 内のchatを使う
+    const dbRef = ref(db, "main");  
+    // #sendがクリックされたら　名前・本文情報を取得する
+    $("#save").on("click", function () {
+        const msg = {
+            uname: $("#client").val(),
+            type: $("#type").val(),
+            type2: $("#type2").val(),
+            date: $('#datetimepicker').val(),
+            text: $("#job").val()
+        };
+        const newPostRef = push(dbRef);
+        set(newPostRef, msg);
+    });
+    // DBからメッセージを取得し表示する
+    onChildAdded(dbRef, function (data){
+      const key = data.key
+      const msg = data.val();
+      console.log(msg);
+      const h = `<li><p class="list1">依頼主：${msg.uname}</p><p class="list1">翻訳言語：${msg.type}</p><p class="list1">文章種類：${msg.type2}</p><p class="list1">希望納期：${msg.date}</p><p class="list1">コメント：${msg.text}</p><button class="list1" id="apply" onclick="location.href='./chat.html'">>応募</button></li>`
+      $("#list").append(h)
+    })
+
+    // 新しい依頼作成
+    $("#new-job").on("click",function(){
+        $("#jobOffer").show()
+    })
+
+    $('#datetimepicker').datetimepicker();
+  </script>
+
+</body>
+<footer></footer>
+</html>
+

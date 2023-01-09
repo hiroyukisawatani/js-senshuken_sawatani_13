@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log In</title>
+
+  <!-- Firebase Appは必須であり、常に最初になければなりません -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+  <!-- ログインに必要なJSとCSS -->
+  <script src="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__ja.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth.css" />
+
+</head>
+
+<body>
+
+  <!-- ログインに必要なdiv -->
+  <div id="firebaseui-auth-container"></div>
+  <div id="loader">Loading...</div>
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+
+<!-- ログイン画面の固有設定のjs　-->
+  <script src="/js/index.js"></script>
+  <script>Index.init()</script>
+</body>
+
+</html>
+
+
